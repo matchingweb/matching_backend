@@ -11,7 +11,7 @@
 5. `GET /api/users/me`로 인증 확인 - 완료
 6. Team 엔티티/API - 완료
 7. Post 엔티티/API - 완료
-8. 게시글 필터 검색
+8. 게시글 필터 검색 - 완료
 9. 권한 처리: 내 글만 수정/마감
 10. Swagger 또는 API 문서 추가
 
@@ -134,6 +134,20 @@ Content-Type: application/json
 
 ```http
 GET /api/posts
+Authorization: Bearer {accessToken}
+```
+
+필터 조회 예시:
+
+```http
+GET /api/posts?boardType=MERCENARY&roleType=RECRUITING&status=OPEN&region=대전
+Authorization: Bearer {accessToken}
+```
+
+경기일 기준 필터:
+
+```http
+GET /api/posts?matchDateFrom=2026-08-22T00:00:00&matchDateTo=2026-08-23T23:59:59
 Authorization: Bearer {accessToken}
 ```
 

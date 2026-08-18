@@ -3,6 +3,7 @@ package com.matching.backend.post.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -11,10 +12,12 @@ import com.matching.backend.common.exception.BusinessException;
 import com.matching.backend.common.exception.ErrorCode;
 import com.matching.backend.post.dto.PostCreateRequest;
 import com.matching.backend.post.dto.PostResponse;
+import com.matching.backend.post.dto.PostSearchCondition;
 import com.matching.backend.post.dto.PostUpdateRequest;
 import com.matching.backend.post.entity.BoardType;
 import com.matching.backend.post.entity.Post;
 import com.matching.backend.post.repository.PostRepository;
+import com.matching.backend.post.repository.PostSpecification;
 import com.matching.backend.team.entity.Team;
 import com.matching.backend.team.repository.TeamRepository;
 import com.matching.backend.user.entity.User;
@@ -60,8 +63,11 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> getPosts() {
-        return postRepository.findTop50ByOrderByCreatedAtDesc()
+    public List<PostResponse> getPosts(PostSearchCondition condition) {
+        return postRepository.findAll(
+                        PostSpecification.search(condition),
+                        Sort.by(Sort.Direction.DESC, "createdAt")
+                )
                 .stream()
                 .map(PostResponse::from)
                 .toList();
