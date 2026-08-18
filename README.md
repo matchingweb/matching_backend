@@ -8,7 +8,7 @@
 2. 공통 응답/예외 구조 생성 - 완료
 3. User 엔티티 + 회원가입 - 완료
 4. Spring Security + JWT 로그인 - 완료
-5. `GET /api/users/me`로 인증 확인
+5. `GET /api/users/me`로 인증 확인 - 완료
 6. Team 엔티티/API
 7. Post 엔티티/API
 8. 게시글 필터 검색
@@ -65,5 +65,12 @@ Content-Type: application/json
 인증이 필요한 API는 아래 헤더를 포함해서 요청합니다.
 
 ```http
+Authorization: Bearer {accessToken}
+```
+
+### 내 정보 조회
+
+```http
+GET /api/users/me
 Authorization: Bearer {accessToken}
 ```
