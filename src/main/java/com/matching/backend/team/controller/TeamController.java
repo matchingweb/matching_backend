@@ -1,7 +1,6 @@
 package com.matching.backend.team.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.matching.backend.auth.security.AuthUserPrincipal;
+import com.matching.backend.auth.security.CurrentUser;
 import com.matching.backend.common.response.ApiResponse;
 import com.matching.backend.team.dto.TeamCreateRequest;
 import com.matching.backend.team.dto.TeamResponse;
@@ -33,7 +33,7 @@ public class TeamController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<TeamResponse> createTeam(
-            @AuthenticationPrincipal AuthUserPrincipal principal,
+            @CurrentUser AuthUserPrincipal principal,
             @Valid @RequestBody TeamCreateRequest request
     ) {
         return ApiResponse.success(teamService.createTeam(principal.userId(), request));
@@ -46,7 +46,7 @@ public class TeamController {
 
     @PatchMapping("/{teamId}")
     public ApiResponse<TeamResponse> updateTeam(
-            @AuthenticationPrincipal AuthUserPrincipal principal,
+            @CurrentUser AuthUserPrincipal principal,
             @PathVariable Long teamId,
             @Valid @RequestBody TeamUpdateRequest request
     ) {

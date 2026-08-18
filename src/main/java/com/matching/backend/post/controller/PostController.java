@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.matching.backend.auth.security.AuthUserPrincipal;
+import com.matching.backend.auth.security.CurrentUser;
 import com.matching.backend.common.response.ApiResponse;
 import com.matching.backend.post.dto.PostCreateRequest;
 import com.matching.backend.post.dto.PostResponse;
@@ -42,7 +42,7 @@ public class PostController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<PostResponse> createPost(
-            @AuthenticationPrincipal AuthUserPrincipal principal,
+            @CurrentUser AuthUserPrincipal principal,
             @Valid @RequestBody PostCreateRequest request
     ) {
         return ApiResponse.success(postService.createPost(principal.userId(), request));
@@ -73,7 +73,7 @@ public class PostController {
     }
 
     @GetMapping("/me")
-    public ApiResponse<List<PostResponse>> getMyPosts(@AuthenticationPrincipal AuthUserPrincipal principal) {
+    public ApiResponse<List<PostResponse>> getMyPosts(@CurrentUser AuthUserPrincipal principal) {
         return ApiResponse.success(postService.getMyPosts(principal.userId()));
     }
 
@@ -84,7 +84,7 @@ public class PostController {
 
     @PatchMapping("/{postId}")
     public ApiResponse<PostResponse> updatePost(
-            @AuthenticationPrincipal AuthUserPrincipal principal,
+            @CurrentUser AuthUserPrincipal principal,
             @PathVariable Long postId,
             @Valid @RequestBody PostUpdateRequest request
     ) {
@@ -93,7 +93,7 @@ public class PostController {
 
     @PatchMapping("/{postId}/close")
     public ApiResponse<PostResponse> closePost(
-            @AuthenticationPrincipal AuthUserPrincipal principal,
+            @CurrentUser AuthUserPrincipal principal,
             @PathVariable Long postId
     ) {
         return ApiResponse.success(postService.closePost(principal.userId(), postId));
