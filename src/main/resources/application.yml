@@ -24,3 +24,11 @@ server:
 jwt:
   secret: matching-backend-secret-key-for-local-development-2026
   access-token-expiration-millis: 3600000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+  api-docs:
+    path: /v3/api-docs

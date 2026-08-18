@@ -13,7 +13,7 @@
 7. Post 엔티티/API - 완료
 8. 게시글 필터 검색 - 완료
 9. 권한 처리: 내 글만 수정/마감 - 완료
-10. Swagger 또는 API 문서 추가
+10. Swagger 또는 API 문서 추가 - 완료
 
 ## 실행 준비
 
@@ -25,6 +25,18 @@ mvn spring-boot:run
 ```
 
 ## 현재 API
+
+### API 문서
+
+```http
+GET /swagger-ui.html
+```
+
+OpenAPI JSON:
+
+```http
+GET /v3/api-docs
+```
 
 ### 회원가입
 
