@@ -6,7 +6,7 @@
 
 1. Spring Boot 프로젝트 생성 - 완료
 2. 공통 응답/예외 구조 생성 - 완료
-3. User 엔티티 + 회원가입
+3. User 엔티티 + 회원가입 - 완료
 4. Spring Security + JWT 로그인
 5. `GET /api/users/me`로 인증 확인
 6. Team 엔티티/API
@@ -22,4 +22,28 @@
 
 ```bash
 mvn spring-boot:run
+```
+
+## 현재 API
+
+### 회원가입
+
+```http
+POST /api/auth/signup
+Content-Type: application/json
+```
+
+```json
+{
+  "email": "player@example.com",
+  "password": "password123",
+  "nickname": "대전미드필더",
+  "age": 28,
+  "gender": "MALE",
+  "region": "대전광역시 유성구",
+  "position": "CM",
+  "skillLevel": "중",
+  "career": "풋살 5년",
+  "videoUrl": "https://youtube.com/example"
+}
 ```

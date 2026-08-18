@@ -3,6 +3,7 @@ package com.matching.backend.common.exception;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -59,6 +60,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             ConstraintViolationException.class,
+            HttpMessageNotReadableException.class,
             MethodArgumentTypeMismatchException.class
     })
     public ResponseEntity<ApiResponse<Void>> handleInvalidRequestException(Exception exception) {
