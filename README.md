@@ -10,7 +10,7 @@
 4. Spring Security + JWT 로그인 - 완료
 5. `GET /api/users/me`로 인증 확인 - 완료
 6. Team 엔티티/API - 완료
-7. Post 엔티티/API
+7. Post 엔티티/API - 완료
 8. 게시글 필터 검색
 9. 권한 처리: 내 글만 수정/마감
 10. Swagger 또는 API 문서 추가
@@ -108,4 +108,56 @@ Authorization: Bearer {accessToken}
 PATCH /api/teams/{teamId}
 Authorization: Bearer {accessToken}
 Content-Type: application/json
+```
+
+### 게시글 생성
+
+```http
+POST /api/posts
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
+
+```json
+{
+  "teamId": 1,
+  "boardType": "MERCENARY",
+  "roleType": "RECRUITING",
+  "title": "이번 주말 풋살 용병 2명 구합니다",
+  "matchDate": "2026-08-22T18:00:00",
+  "location": "대전광역시 유성구 송강동 풋살장",
+  "content": "중급 정도로 같이 뛰실 분을 찾습니다."
+}
+```
+
+### 게시글 목록/상세 조회
+
+```http
+GET /api/posts
+Authorization: Bearer {accessToken}
+```
+
+```http
+GET /api/posts/{postId}
+Authorization: Bearer {accessToken}
+```
+
+### 내가 쓴 게시글 조회
+
+```http
+GET /api/posts/me
+Authorization: Bearer {accessToken}
+```
+
+### 게시글 수정/마감
+
+```http
+PATCH /api/posts/{postId}
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
+
+```http
+PATCH /api/posts/{postId}/close
+Authorization: Bearer {accessToken}
 ```
