@@ -7,7 +7,7 @@
 1. Spring Boot 프로젝트 생성 - 완료
 2. 공통 응답/예외 구조 생성 - 완료
 3. User 엔티티 + 회원가입 - 완료
-4. Spring Security + JWT 로그인
+4. Spring Security + JWT 로그인 - 완료
 5. `GET /api/users/me`로 인증 확인
 6. Team 엔티티/API
 7. Post 엔티티/API
@@ -46,4 +46,24 @@ Content-Type: application/json
   "career": "풋살 5년",
   "videoUrl": "https://youtube.com/example"
 }
+```
+
+### 로그인
+
+```http
+POST /api/auth/login
+Content-Type: application/json
+```
+
+```json
+{
+  "email": "player@example.com",
+  "password": "password123"
+}
+```
+
+인증이 필요한 API는 아래 헤더를 포함해서 요청합니다.
+
+```http
+Authorization: Bearer {accessToken}
 ```

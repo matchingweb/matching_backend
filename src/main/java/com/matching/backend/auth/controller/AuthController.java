@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.matching.backend.auth.dto.LoginRequest;
+import com.matching.backend.auth.dto.LoginResponse;
 import com.matching.backend.auth.dto.SignupRequest;
 import com.matching.backend.auth.dto.SignupResponse;
 import com.matching.backend.auth.service.AuthService;
@@ -28,5 +30,10 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<SignupResponse> signup(@Valid @RequestBody SignupRequest request) {
         return ApiResponse.success(authService.signup(request));
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        return ApiResponse.success(authService.login(request));
     }
 }
