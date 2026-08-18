@@ -9,7 +9,7 @@
 3. User 엔티티 + 회원가입 - 완료
 4. Spring Security + JWT 로그인 - 완료
 5. `GET /api/users/me`로 인증 확인 - 완료
-6. Team 엔티티/API
+6. Team 엔티티/API - 완료
 7. Post 엔티티/API
 8. 게시글 필터 검색
 9. 권한 처리: 내 글만 수정/마감
@@ -73,4 +73,39 @@ Authorization: Bearer {accessToken}
 ```http
 GET /api/users/me
 Authorization: Bearer {accessToken}
+```
+
+### 팀 생성
+
+```http
+POST /api/teams
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+```
+
+```json
+{
+  "name": "대전FC",
+  "logoUrl": "https://example.com/logo.png",
+  "homeRegion": "대전광역시 유성구",
+  "homeStadium": "송강동 풋살장",
+  "ageGroup": "20대 후반 ~ 30대",
+  "level": "MIDDLE",
+  "fee": 30000
+}
+```
+
+### 팀 상세 조회
+
+```http
+GET /api/teams/{teamId}
+Authorization: Bearer {accessToken}
+```
+
+### 팀 수정
+
+```http
+PATCH /api/teams/{teamId}
+Authorization: Bearer {accessToken}
+Content-Type: application/json
 ```
