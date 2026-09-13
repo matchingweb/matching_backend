@@ -26,7 +26,11 @@ public class JwtTokenProvider {
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.access-token-expiration-millis}") long accessTokenExpirationMillis
     ) {
-        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        byte[] secretBytes = secret.getBytes(StandardCharsets.UTF_8);
+        if (secretBytes.length < 32) {
+            throw new IllegalStateException("JWT_SECRET must be at least 32 bytes long.");
+        }
+        this.secretKey = Keys.hmacShaKeyFor(secretBytes);
         this.accessTokenExpirationMillis = accessTokenExpirationMillis;
     }
 
