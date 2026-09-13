@@ -1,5 +1,7 @@
 package com.matching.backend.team.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -37,6 +39,16 @@ public class TeamController {
             @Valid @RequestBody TeamCreateRequest request
     ) {
         return ApiResponse.success(teamService.createTeam(principal.userId(), request));
+    }
+
+    @GetMapping
+    public ApiResponse<List<TeamResponse>> getTeams() {
+        return ApiResponse.success(teamService.getTeams());
+    }
+
+    @GetMapping("/me")
+    public ApiResponse<List<TeamResponse>> getMyTeams(@CurrentUser AuthUserPrincipal principal) {
+        return ApiResponse.success(teamService.getMyTeams(principal.userId()));
     }
 
     @GetMapping("/{teamId}")

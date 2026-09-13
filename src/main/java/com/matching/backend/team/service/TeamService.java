@@ -1,5 +1,8 @@
 package com.matching.backend.team.service;
 
+import java.util.List;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -47,6 +50,22 @@ public class TeamService {
     @Transactional(readOnly = true)
     public TeamResponse getTeam(Long teamId) {
         return TeamResponse.from(findTeam(teamId));
+    }
+
+    @Transactional(readOnly = true)
+    public List<TeamResponse> getTeams() {
+        return teamRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
+                .stream()
+                .map(TeamResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TeamResponse> getMyTeams(Long ownerUserId) {
+        return teamRepository.findByOwner_IdOrderByCreatedAtDesc(ownerUserId)
+                .stream()
+                .map(TeamResponse::from)
+                .toList();
     }
 
     @Transactional

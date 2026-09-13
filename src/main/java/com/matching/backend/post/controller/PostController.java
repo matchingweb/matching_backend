@@ -1,10 +1,10 @@
 package com.matching.backend.post.controller;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.matching.backend.auth.security.AuthUserPrincipal;
 import com.matching.backend.auth.security.CurrentUser;
 import com.matching.backend.common.response.ApiResponse;
+import com.matching.backend.common.response.PageResponse;
 import com.matching.backend.post.dto.PostCreateRequest;
 import com.matching.backend.post.dto.PostResponse;
 import com.matching.backend.post.dto.PostSearchCondition;
@@ -28,9 +29,12 @@ import com.matching.backend.post.entity.RoleType;
 import com.matching.backend.post.service.PostService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/api/posts")
+@Validated
 public class PostController {
 
     private final PostService postService;
@@ -49,7 +53,7 @@ public class PostController {
     }
 
     @GetMapping
-    public ApiResponse<List<PostResponse>> getPosts(
+    public ApiResponse<PageResponse<PostResponse>> getPosts(
             @RequestParam(required = false) BoardType boardType,
             @RequestParam(required = false) RoleType roleType,
             @RequestParam(required = false) PostStatus status,
@@ -59,7 +63,9 @@ public class PostController {
             LocalDateTime matchDateFrom,
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            LocalDateTime matchDateTo
+            LocalDateTime matchDateTo,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "20") @Min(1) @Max(100) int size
     ) {
         PostSearchCondition condition = new PostSearchCondition(
                 boardType,
@@ -69,12 +75,16 @@ public class PostController {
                 matchDateFrom,
                 matchDateTo
         );
-        return ApiResponse.success(postService.getPosts(condition));
+        return ApiResponse.success(postService.getPosts(condition, page, size));
     }
 
     @GetMapping("/me")
-    public ApiResponse<List<PostResponse>> getMyPosts(@CurrentUser AuthUserPrincipal principal) {
-        return ApiResponse.success(postService.getMyPosts(principal.userId()));
+    public ApiResponse<PageResponse<PostResponse>> getMyPosts(
+            @CurrentUser AuthUserPrincipal principal,
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "20") @Min(1) @Max(100) int size
+    ) {
+        return ApiResponse.success(postService.getMyPosts(principal.userId(), page, size));
     }
 
     @GetMapping("/{postId}")

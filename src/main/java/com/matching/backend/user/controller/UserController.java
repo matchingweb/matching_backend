@@ -1,6 +1,8 @@
 package com.matching.backend.user.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,7 +10,10 @@ import com.matching.backend.auth.security.AuthUserPrincipal;
 import com.matching.backend.auth.security.CurrentUser;
 import com.matching.backend.common.response.ApiResponse;
 import com.matching.backend.user.dto.UserMeResponse;
+import com.matching.backend.user.dto.UserUpdateRequest;
 import com.matching.backend.user.service.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,5 +28,13 @@ public class UserController {
     @GetMapping("/me")
     public ApiResponse<UserMeResponse> getMe(@CurrentUser AuthUserPrincipal principal) {
         return ApiResponse.success(userService.getMe(principal.userId()));
+    }
+
+    @PatchMapping("/me")
+    public ApiResponse<UserMeResponse> updateMe(
+            @CurrentUser AuthUserPrincipal principal,
+            @Valid @RequestBody UserUpdateRequest request
+    ) {
+        return ApiResponse.success(userService.updateMe(principal.userId(), request));
     }
 }

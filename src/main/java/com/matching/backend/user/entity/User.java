@@ -104,6 +104,42 @@ public class User extends BaseTimeEntity {
         );
     }
 
+    public void updateProfile(
+            String nickname,
+            Integer age,
+            Gender gender,
+            String region,
+            Position position,
+            String skillLevel,
+            String career,
+            String videoUrl
+    ) {
+        if (nickname != null) {
+            this.nickname = nickname;
+        }
+        if (age != null) {
+            this.age = age;
+        }
+        if (gender != null) {
+            this.gender = gender;
+        }
+        if (region != null) {
+            this.region = region;
+        }
+        if (position != null) {
+            this.position = position;
+        }
+        if (skillLevel != null) {
+            this.skillLevel = skillLevel;
+        }
+        if (career != null) {
+            this.career = career;
+        }
+        if (videoUrl != null) {
+            this.videoUrl = videoUrl;
+        }
+    }
+
     public Long getId() {
         return id;
     }

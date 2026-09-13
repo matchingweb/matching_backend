@@ -1,8 +1,9 @@
 package com.matching.backend.post.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import com.matching.backend.common.exception.BusinessException;
 import com.matching.backend.common.exception.ErrorCode;
+import com.matching.backend.common.response.PageResponse;
 import com.matching.backend.post.dto.PostCreateRequest;
 import com.matching.backend.post.dto.PostResponse;
 import com.matching.backend.post.dto.PostSearchCondition;
@@ -63,14 +65,13 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> getPosts(PostSearchCondition condition) {
-        return postRepository.findAll(
+    public PageResponse<PostResponse> getPosts(PostSearchCondition condition, int page, int size) {
+        Pageable pageable = createPageable(page, size);
+        return PageResponse.from(postRepository.findAll(
                         PostSpecification.search(condition),
-                        Sort.by(Sort.Direction.DESC, "createdAt")
+                        pageable
                 )
-                .stream()
-                .map(PostResponse::from)
-                .toList();
+                .map(PostResponse::from));
     }
 
     @Transactional(readOnly = true)
@@ -79,11 +80,9 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> getMyPosts(Long authorUserId) {
-        return postRepository.findByAuthor_IdOrderByCreatedAtDesc(authorUserId)
-                .stream()
-                .map(PostResponse::from)
-                .toList();
+    public PageResponse<PostResponse> getMyPosts(Long authorUserId, int page, int size) {
+        return PageResponse.from(postRepository.findByAuthor_Id(authorUserId, createPageable(page, size))
+                .map(PostResponse::from));
     }
 
     @Transactional
@@ -161,5 +160,9 @@ public class PostService {
         if (value != null && !StringUtils.hasText(value)) {
             throw new BusinessException(ErrorCode.INVALID_REQUEST);
         }
+    }
+
+    private Pageable createPageable(int page, int size) {
+        return PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 }

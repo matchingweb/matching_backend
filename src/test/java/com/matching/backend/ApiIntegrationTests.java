@@ -109,11 +109,12 @@ class ApiIntegrationTests {
                         .param("region", uniqueRegion))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data", hasSize(1)))
-                .andExpect(jsonPath("$.data[0].title").value("필터에 걸리는 글"))
-                .andExpect(jsonPath("$.data[0].boardType").value("MERCENARY"))
-                .andExpect(jsonPath("$.data[0].roleType").value("RECRUITING"))
-                .andExpect(jsonPath("$.data[0].status").value("OPEN"));
+                .andExpect(jsonPath("$.data.content", hasSize(1)))
+                .andExpect(jsonPath("$.data.totalElements").value(1))
+                .andExpect(jsonPath("$.data.content[0].title").value("필터에 걸리는 글"))
+                .andExpect(jsonPath("$.data.content[0].boardType").value("MERCENARY"))
+                .andExpect(jsonPath("$.data.content[0].roleType").value("RECRUITING"))
+                .andExpect(jsonPath("$.data.content[0].status").value("OPEN"));
     }
 
     @Test
