@@ -6,6 +6,36 @@ Spring Boot와 Spring Security, JWT를 기반으로 구현되었으며, 사용�
 
 ---
 
+## 개발 로드맵
+
+### MVP 1차
+
+1. Spring Boot 프로젝트 생성 - 완료
+2. 공통 응답/예외 구조 생성 - 완료
+3. User 엔티티 + 회원가입 - 완료
+4. Spring Security + JWT 로그인 - 완료
+5. `GET /api/users/me`로 인증 확인 - 완료
+6. Team 엔티티/API - 완료
+7. Post 엔티티/API - 완료
+8. 게시글 필터 검색 - 완료
+9. 권한 처리: 내 글만 수정/마감 - 완료
+10. Swagger 또는 API 문서 추가 - 완료
+
+### 배포 전 준비
+
+11. 로컬 실행 환경 정리 - 환경 점검 자동화 완료, 빌드 검증 대기
+12. 테스트 코드 추가
+13. PostgreSQL 전환 준비
+14. DB 마이그레이션 도입
+15. 인증/보안 보강
+16. API 사용성 보강
+17. 매칭 신청/수락 기능 추가
+18. 운영 품질 보강
+19. CI 구성
+20. 배포 준비
+
+---
+
 ## 기술 스택 (Tech Stack)
 
 - **Framework**: Spring Boot [cite: 1]
@@ -57,7 +87,6 @@ erDiagram
     String password
     Gender gender
     Position position
-    RoleType role
   }
   POST {
     Long id PK
@@ -72,7 +101,7 @@ erDiagram
     TeamLevel level
   }
   USER ||--o{ POST : "writes"
-  USER ||--o{ TEAM : "belongs to"
+  USER ||--o{ TEAM : "owns"
 ```
 
 ---
@@ -127,10 +156,20 @@ src/main/java/com/matching/backend/
 ## 로컬 실행 가이드
 
 ### 요구 사항
-- Java 17 이상 권장
-- Maven 3.x
+
+- Java 17 이상
+- Maven 3.9 이상
+
+### 환경 점검
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\check-env.ps1
+```
+
+상세 가이드는 [docs/local-development.md](docs/local-development.md)를 참고합니다.
 
 ### 실행 방법
+
 1. 프로젝트 클론 후 루트 디렉터리(`matching_backend`)로 이동합니다.
 2. Maven 종속성 패키지를 설치합니다.
    ```bash
@@ -141,4 +180,9 @@ src/main/java/com/matching/backend/
    ```bash
    mvn spring-boot:run
    ```
-5. 서버가 실행되면 설정된 포트(예: 8080)를 통해 API에 접근할 수 있으며, Swagger 설정 시 `/swagger-ui.html` 또는 `/v3/api-docs`를 확인합니다.
+5. 또는 로컬 실행 스크립트를 사용합니다.
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File .\scripts\run-local.ps1
+   ```
+
+서버가 실행되면 설정된 포트(예: 8080)를 통해 API에 접근할 수 있으며, Swagger 설정 시 `/swagger-ui.html` 또는 `/v3/api-docs`를 확인합니다.
