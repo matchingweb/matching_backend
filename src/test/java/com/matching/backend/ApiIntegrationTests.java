@@ -136,6 +136,40 @@ class ApiIntegrationTests {
                 .andExpect(jsonPath("$.data.status").value("CLOSED"));
     }
 
+    @Test
+    void applicantCanApplyAndAuthorCanAccept() throws Exception {
+        String authorToken = signupAndLogin(uniqueEmail());
+        String applicantToken = signupAndLogin(uniqueEmail());
+        String otherToken = signupAndLogin(uniqueEmail());
+        Long teamId = createTeam(authorToken, "지원흐름팀");
+        Long postId = createPost(authorToken, teamId, "지원흐름지역", "지원 가능한 글");
+
+        Long applicationId = applyToPost(applicantToken, postId, "참여하고 싶습니다.");
+
+        mockMvc.perform(get("/api/posts/{postId}/applications", postId)
+                        .header("Authorization", bearer(authorToken)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", hasSize(1)))
+                .andExpect(jsonPath("$.data[0].id").value(applicationId))
+                .andExpect(jsonPath("$.data[0].status").value("PENDING"));
+
+        mockMvc.perform(patch("/api/applications/{applicationId}/accept", applicationId)
+                        .header("Authorization", bearer(otherToken)))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("APPLICATION_403_1"));
+
+        mockMvc.perform(patch("/api/applications/{applicationId}/accept", applicationId)
+                        .header("Authorization", bearer(authorToken)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.status").value("ACCEPTED"));
+
+        mockMvc.perform(get("/api/applications/me")
+                        .header("Authorization", bearer(applicantToken)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", hasSize(1)))
+                .andExpect(jsonPath("$.data[0].status").value("ACCEPTED"));
+    }
+
     private String signupAndLogin(String email) throws Exception {
         signup(email);
         return login(email);
@@ -205,6 +239,23 @@ class ApiIntegrationTests {
                         .content(toJson(payload)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value(true))
+                .andReturn();
+
+        JsonNode root = objectMapper.readTree(result.getResponse().getContentAsString());
+        return root.path("data").path("id").asLong();
+    }
+
+    private Long applyToPost(String token, Long postId, String message) throws Exception {
+        Map<String, Object> payload = new LinkedHashMap<>();
+        payload.put("message", message);
+
+        MvcResult result = mockMvc.perform(post("/api/posts/{postId}/applications", postId)
+                        .header("Authorization", bearer(token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(toJson(payload)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.status").value("PENDING"))
                 .andReturn();
 
         JsonNode root = objectMapper.readTree(result.getResponse().getContentAsString());

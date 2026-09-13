@@ -15,6 +15,11 @@ public enum ErrorCode {
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST_404_1", "게시글을 찾을 수 없습니다."),
     POST_FORBIDDEN(HttpStatus.FORBIDDEN, "POST_403_1", "게시글을 수정할 권한이 없습니다."),
     POST_TEAM_FORBIDDEN(HttpStatus.FORBIDDEN, "POST_403_2", "해당 팀으로 게시글을 작성할 권한이 없습니다."),
+    POST_CLOSED(HttpStatus.CONFLICT, "POST_409_1", "마감된 게시글입니다."),
+    APPLICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "APPLICATION_404_1", "지원 내역을 찾을 수 없습니다."),
+    APPLICATION_FORBIDDEN(HttpStatus.FORBIDDEN, "APPLICATION_403_1", "지원 내역을 처리할 권한이 없습니다."),
+    DUPLICATE_APPLICATION(HttpStatus.CONFLICT, "APPLICATION_409_1", "이미 지원한 게시글입니다."),
+    SELF_APPLICATION_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "APPLICATION_400_1", "본인이 작성한 게시글에는 지원할 수 없습니다."),
     INVALID_LOGIN(HttpStatus.UNAUTHORIZED, "AUTH_401_1", "이메일 또는 비밀번호가 올바르지 않습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_401_2", "유효하지 않은 인증 토큰입니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON_500", "서버 내부 오류가 발생했습니다.");
