@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/matching}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:matching}
+    password: ${DB_PASSWORD:matching}
+  h2:
+    console:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false

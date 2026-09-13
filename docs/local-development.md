@@ -51,3 +51,5 @@ H2 접속 정보:
 ## 현재 제한 사항
 
 JDK 또는 Maven이 설치되어 있지 않으면 빌드와 실행은 실패합니다. 이 경우 Java 17 이상과 Maven 3.9 이상을 설치한 뒤 `scripts/check-env.ps1`을 다시 실행하세요.
+
+PostgreSQL 프로필과 Docker Compose 사용법은 [database.md](database.md)를 참고하세요.

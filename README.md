@@ -25,7 +25,7 @@ Spring Boot와 Spring Security, JWT를 기반으로 구현되었으며, 사용�
 
 11. 로컬 실행 환경 정리 - 환경 점검 자동화 완료, 빌드 검증 대기
 12. 테스트 코드 추가 - 완료
-13. PostgreSQL 전환 준비
+13. PostgreSQL 전환 준비 - 완료
 14. DB 마이그레이션 도입
 15. 인증/보안 보강
 16. API 사용성 보강
@@ -167,6 +167,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\check-env.ps1
 ```
 
 상세 가이드는 [docs/local-development.md](docs/local-development.md)를 참고합니다.
+PostgreSQL 설정은 [docs/database.md](docs/database.md)를 참고합니다.
 
 ### 실행 방법
 
