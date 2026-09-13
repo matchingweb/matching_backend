@@ -32,7 +32,7 @@ Spring Boot와 Spring Security, JWT를 기반으로 구현되었으며, 사용�
 17. 매칭 신청/수락 기능 추가 - 완료
 18. 운영 품질 보강 - 완료
 19. CI 구성 - 완료
-20. 배포 준비
+20. 배포 준비 - 완료
 
 ---
 
@@ -170,6 +170,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\check-env.ps1
 PostgreSQL 설정은 [docs/database.md](docs/database.md)를 참고합니다.
 보안 설정은 [docs/security.md](docs/security.md)를 참고합니다.
 운영 설정은 [docs/operations.md](docs/operations.md)를 참고합니다.
+배포 준비는 [docs/deployment.md](docs/deployment.md)를 참고합니다.
 
 ### 실행 방법
 

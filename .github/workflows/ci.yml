@@ -27,3 +27,6 @@ jobs:
 
       - name: Run tests
         run: mvn -B test
+
+      - name: Build Docker image
+        run: docker build -t matching-backend:ci .
